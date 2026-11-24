@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archi — Барбершоп во Владикавказе</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #0d0d0d;
+            --bg-card: #1a1a1a;
+            --accent: #c9956b;
+            --accent-dark: #a87a52;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-muted: #6a6a6a;
+            --border: #2a2a2a;
+            --success: #4caf50;
+            --whatsapp: #25D366;
+            --font-heading: 'Bebas Neue', sans-serif;
+            --font-display: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* HEADER */
+        header {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            background: rgba(13, 13, 13, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        header.scrolled { background: rgba(13, 13, 13, 0.95); }
+        .header-inner {
+            display: flex; justify-content: space-between; align-items: center; height: 80px;
+        }
+        .logo { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+        .logo-icon {
+            width: 45px; height: 45px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--font-heading); font-size: 22px;
+            color: var(--bg-dark); font-weight: 700;
+        }
+        .logo-text h1 { font-family: var(--font-heading); font-size: 28px; letter-spacing: 3px; line-height: 1; }
+        .logo-text p { font-size: 10px; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; }
+        nav ul { display: flex; gap: 35px; }
+        nav a {
+            font-weight: 500; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;
+            transition: color 0.3s ease; position: relative;
+        }
+        nav a::after {
+            content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px;
+            background: var(--accent); transition: width 0.3s ease;
+        }
+        nav a:hover { color: var(--accent); }
+        nav a:hover::after { width: 100%; }
+        .header-actions { display: flex; align-items: center; gap: 15px; }
+        .btn-book-header {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: var(--bg-dark); padding: 12px 28px; border-radius: 30px;
+            font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;
+            cursor: pointer; border: none; transition: all 0.3s ease;
+        }
+        .btn-book-header:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(201, 149, 107, 0.4); }
+        .mobile-menu-btn { display: none; background: none; border: none; color: var(--text-primary); font-size: 24px; cursor: pointer; }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh; display: flex; align-items: center;
+            position: relative; overflow: hidden; padding-top: 80px;
+        }
+        .hero-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://images.unsplash.com/photo-1585747860019-8942b4a6b0d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            filter: brightness(0.3); z-index: 0;
+        }
+        .hero-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(13,13,13,0.9) 0%, rgba(13,13,13,0.4) 100%); z-index: 1;
+        }
+        .hero-content { position: relative; z-index: 2; max-width: 700px; }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(201, 149, 107, 0.15); border: 1px solid rgba(201, 149, 107, 0.3);
+            padding: 8px 20px; border-radius: 30px; font-size: 13px; color: var(--accent);
+            margin-bottom: 25px; text-transform: uppercase; letter-spacing: 2px;
+        }
+        .hero-badge i { color: #ffd700; }
+        .hero-title {
+            font-family: var(--font-heading); font-size: clamp(60px, 8vw, 120px);
+            line-height: 0.95; letter-spacing: 3px; margin-bottom: 20px;
+        }
+        .hero-title span { color: var(--accent); font-family: var(--font-display); font-style: italic; font-weight: 400; }
+        .hero-subtitle { font-size: 18px; color: var(--text-secondary); margin-bottom: 15px; max-width: 500px; }
+        .hero-rating { display: flex; align-items: center; gap: 15px; margin-bottom: 40px; }
+        .hero-rating .stars { color: #ffd700; font-size: 18px; }
+        .hero-rating .rating-text { font-weight: 600; font-size: 16px; }
+        .hero-rating .reviews { color: var(--text-muted); font-size: 14px; }
+        .hero-buttons { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 50px; }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: var(--bg-dark); padding: 16px 36px; border-radius: 30px;
+            font-weight: 700; font-size: 15px; text-transform: uppercase; letter-spacing: 1px;
+            cursor: pointer; border: none; transition: all 0.3s ease;
+            display: inline-flex; align-items: center; gap: 10px;
+        }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(201, 149, 107, 0.4); }
+        .btn-outline {
+            background: transparent; color: var(--text-primary); padding: 16px 36px;
+            border-radius: 30px; font-weight: 600; font-size: 15px; cursor: pointer;
+            border: 2px solid var(--border); transition: all 0.3s ease;
+            display: inline-flex; align-items: center; gap: 10px;
+        }
+        .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+        .hero-info-cards { display: flex; gap: 30px; flex-wrap: wrap; }
+        .hero-info-card { display: flex; align-items: center; gap: 12px; }
+        .hero-info-card .icon {
+            width: 45px; height: 45px; background: rgba(201, 149, 107, 0.1);
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            color: var(--accent); font-size: 18px;
+        }
+        .hero-info-card .text strong { display: block; font-size: 15px; }
+        .hero-info-card .text span { font-size: 13px; color: var(--text-muted); }
+
+        /* SECTIONS */
+        .section { padding: 100px 0; }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-label {
+            font-size: 13px; color: var(--accent); text-transform: uppercase;
+            letter-spacing: 3px; margin-bottom: 15px; font-weight: 600;
+        }
+        .section-title {
+            font-family: var(--font-heading); font-size: clamp(36px, 5vw, 56px);
+            letter-spacing: 2px; line-height: 1; margin-bottom: 15px;
+        }
+        .section-title span { color: var(--accent); }
+        .section-desc { color: var(--text-secondary); max-width: 600px; margin: 0 auto; font-size: 16px; }
+
+        /* SERVICES */
+        .services-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 50px; flex-wrap: wrap; }
+        .tab-btn {
+            padding: 14px 30px; border-radius: 30px; border: 2px solid var(--border);
+            background: transparent; color: var(--text-secondary); font-weight: 600;
+            font-size: 14px; cursor: pointer; transition: all 0.3s ease; font-family: var(--font-body);
+        }
+        .tab-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            border-color: var(--accent); color: var(--bg-dark);
+        }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
+        .service-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 16px; padding: 25px; transition: all 0.4s ease;
+            cursor: pointer; position: relative; overflow: hidden;
+        }
+        .service-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+            transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease;
+        }
+        .service-card:hover { border-color: var(--accent); transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.3); }
+        .service-card:hover::before { transform: scaleX(1); }
+        .service-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+        .service-card h3 { font-family: var(--font-display); font-size: 20px; font-weight: 700; flex: 1; padding-right: 15px; }
+        .service-price { font-family: var(--font-heading); font-size: 28px; color: var(--accent); letter-spacing: 1px; white-space: nowrap; }
+        .service-card p { color: var(--text-secondary); font-size: 14px; line-height: 1.6; margin-bottom: 20px; }
+        .service-card-footer { display: flex; justify-content: space-between; align-items: center; }
+        .service-time { font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 5px; }
+        .btn-book-service {
+            background: rgba(201, 149, 107, 0.15); color: var(--accent); border: none;
+            padding: 8px 20px; border-radius: 20px; font-weight: 600; font-size: 13px;
+            cursor: pointer; transition: all 0.3s ease; font-family: var(--font-body);
+        }
+        .btn-book-service:hover { background: var(--accent); color: var(--bg-dark); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* GALLERY */
+        .gallery { background: var(--bg-card); }
+        .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 250px; gap: 15px; }
+        .gallery-item { border-radius: 16px; overflow: hidden; position: relative; cursor: pointer; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .gallery-item:hover img { transform: scale(1.1); }
+        .gallery-item::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%);
+            opacity: 0; transition: opacity 0.3s ease;
+        }
+        .gallery-item:hover::after { opacity: 1; }
+        .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+        .gallery-item:nth-child(5) { grid-column: span 2; }
+
+        /* CONTACTS */
+        .contacts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .contact-info { display: flex; flex-direction: column; gap: 30px; }
+        .contact-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 16px; padding: 30px; transition: all 0.3s ease;
+        }
+        .contact-card:hover { border-color: var(--accent); }
+        .contact-card-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .contact-card-header .icon {
+            width: 50px; height: 50px; background: rgba(201, 149, 107, 0.1);
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            color: var(--accent); font-size: 20px;
+        }
+        .contact-card-header h3 { font-family: var(--font-heading); font-size: 22px; letter-spacing: 2px; }
+        .contact-card p { color: var(--text-secondary); font-size: 15px; margin-bottom: 15px; }
+        .contact-card a { color: var(--accent); font-weight: 600; transition: color 0.3s ease; }
+        .contact-card a:hover { color: var(--accent-dark); }
+        .btn-route {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(201, 149, 107, 0.15); color: var(--accent);
+            padding: 10px 20px; border-radius: 25px; font-weight: 600; font-size: 14px;
+            cursor: pointer; border: none; transition: all 0.3s ease; font-family: var(--font-body);
+        }
+        .btn-route:hover { background: var(--accent); color: var(--bg-dark); }
+        .btn-whatsapp {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(37, 211, 102, 0.15); color: var(--whatsapp);
+            padding: 10px 20px; border-radius: 25px; font-weight: 600; font-size: 14px;
+            cursor: pointer; border: none; transition: all 0.3s ease; font-family: var(--font-body);
+            margin-top: 10px;
+        }
+        .btn-whatsapp:hover { background: var(--whatsapp); color: #fff; }
+        .schedule-list { display: flex; flex-direction: column; gap: 8px; }
+        .schedule-item {
+            display: flex; justify-content: space-between; padding: 8px 0;
+            border-bottom: 1px solid var(--border); font-size: 15px;
+        }
+        .schedule-item:last-child { border-bottom: none; }
+        .schedule-item .day { color: var(--text-secondary); }
+        .schedule-item.today { color: var(--accent); }
+        .schedule-item.today .day, .schedule-item.today .time { color: var(--accent); font-weight: 700; }
+        .map-container {
+            border-radius: 16px; overflow: hidden; border: 1px solid var(--border);
+            height: 100%; min-height: 400px;
+        }
+        .map-container iframe { width: 100%; height: 100%; border: none; filter: grayscale(0.5) brightness(0.8); }
+
+        /* FOOTER */
+        footer { background: var(--bg-card); border-top: 1px solid var(--border); padding: 40px 0; }
+        .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+        .footer-logo { display: flex; align-items: center; gap: 10px; }
+        .footer-logo .logo-icon { width: 35px; height: 35px; font-size: 16px; }
+        .footer-logo h2 { font-family: var(--font-heading); font-size: 22px; letter-spacing: 2px; }
+        .footer-social { display: flex; gap: 15px; }
+        .footer-social a {
+            width: 40px; height: 40px; background: var(--bg-dark); border: 1px solid var(--border);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: var(--text-secondary); transition: all 0.3s ease;
+        }
+        .footer-social a:hover { background: var(--accent); color: var(--bg-dark); border-color: var(--accent); }
+        .footer-copy { color: var(--text-muted); font-size: 14px; }
+
+        /* MODAL */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px); z-index: 2000;
+            justify-content: center; align-items: center; padding: 20px;
+        }
+        .modal-overlay.active { display: flex; animation: fadeInModal 0.3s ease; }
+        @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
+        .modal {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px;
+            max-width: 520px; width: 100%; position: relative; max-height: 90vh; overflow-y: auto;
+            animation: slideUp 0.4s ease;
+        }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .modal-header { padding: 30px 30px 0; display: flex; justify-content: space-between; align-items: flex-start; }
+        .modal-header h2 { font-family: var(--font-heading); font-size: 32px; letter-spacing: 2px; }
+        .modal-header p { color: var(--text-secondary); font-size: 14px; margin-top: 5px; }
+        .modal-close {
+            background: var(--bg-dark); border: 1px solid var(--border); color: var(--text-secondary);
+            width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; cursor: pointer; font-size: 18px; transition: all 0.3s ease; flex-shrink: 0;
+        }
+        .modal-close:hover { background: var(--accent); color: var(--bg-dark); border-color: var(--accent); }
+        .modal-body { padding: 30px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; font-size: 14px; color: var(--text-secondary); }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 14px 16px; background: var(--bg-dark);
+            border: 1px solid var(--border); border-radius: 12px; color: var(--text-primary);
+            font-family: var(--font-body); font-size: 15px; transition: border-color 0.3s ease;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none; border-color: var(--accent);
+        }
+        .form-group select option { background: var(--bg-dark); }
+        .form-group textarea { resize: vertical; min-height: 80px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .btn-submit {
+            width: 100%; background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: var(--bg-dark); padding: 16px; border: none; border-radius: 30px;
+            font-weight: 700; font-size: 16px; text-transform: uppercase; letter-spacing: 1px;
+            cursor: pointer; transition: all 0.3s ease; font-family: var(--font-body);
+        }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(201, 149, 107, 0.4); }
+        .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .success-message { display: none; text-align: center; padding: 40px 20px; }
+        .success-message.show { display: block; animation: fadeIn 0.5s ease; }
+        .success-icon {
+            width: 80px; height: 80px; background: rgba(76, 175, 80, 0.15); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;
+            font-size: 36px; color: var(--success);
+        }
+        .success-message h3 { font-family: var(--font-heading); font-size: 28px; letter-spacing: 2px; margin-bottom: 10px; }
+        .success-message p { color: var(--text-secondary); }
+
+        /* FLOATING WHATSAPP */
+        .whatsapp-float {
+            position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
+            background: var(--whatsapp); border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; color: #fff; font-size: 28px;
+            box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4); cursor: pointer; z-index: 999;
+            transition: all 0.3s ease; animation: pulse 2s infinite;
+        }
+        .whatsapp-float:hover { transform: scale(1.1); }
+        @keyframes pulse {
+            0% { box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4), 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4), 0 0 0 20px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4), 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+
+        /* MOBILE NAV */
+        .mobile-nav {
+            display: none; position: fixed; top: 80px; left: 0; width: 100%;
+            background: rgba(13, 13, 13, 0.98); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border); padding: 20px; z-index: 999;
+        }
+        .mobile-nav.active { display: block; animation: slideDown 0.3s ease; }
+        @keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .mobile-nav ul { display: flex; flex-direction: column; gap: 15px; }
+        .mobile-nav a { font-size: 16px; font-weight: 500; display: block; padding: 10px 0; }
+
+        /* RESPONSIVE */
+        @media (max-width: 992px) {
+            nav { display: none; }
+            .mobile-menu-btn { display: block; }
+            .contacts-grid { grid-template-columns: 1fr; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 200px; }
+            .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 1; }
+            .gallery-item:nth-child(5) { grid-column: span 1; }
+        }
+        @media (max-width: 768px) {
+            .hero-title { font-size: 50px; }
+            .hero-buttons { flex-direction: column; }
+            .btn-primary, .btn-outline { width: 100%; justify-content: center; }
+            .hero-info-cards { flex-direction: column; gap: 15px; }
+            .services-grid { grid-template-columns: 1fr; }
+            .gallery-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 180px; }
+            .form-row { grid-template-columns: 1fr; }
+            .services-tabs { gap: 8px; }
+            .tab-btn { padding: 10px 20px; font-size: 13px; }
+            .footer-inner { flex-direction: column; text-align: center; }
+        }
+        @media (max-width: 480px) {
+            .gallery-grid { grid-template-columns: 1fr; grid-auto-rows: 200px; }
+            .gallery-item:nth-child(1) { grid-column: span 1; }
+            .whatsapp-float { bottom: 20px; right: 20px; width: 50px; height: 50px; font-size: 22px; }
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header id="header">
+        <div class="container header-inner">
+            <div class="logo" onclick="scrollToTop()">
+                <div class="logo-icon">A</div>
+                <div class="logo-text">
+                    <h1>ARCHI</h1>
+                    <p>Barber Shop</p>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#services">Услуги</a></li>
+                    <li><a href="#gallery">Галерея</a></li>
+                    <li><a href="#contacts">Контакты</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button class="btn-book-header" onclick="openModal()">Записаться</button>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MOBILE NAV -->
+    <div class="mobile-nav" id="mobileNav">
+        <ul>
+            <li><a href="#services" onclick="closeMobileMenu()">Услуги</a></li>
+            <li><a href="#gallery" onclick="closeMobileMenu()">Галерея</a></li>
+            <li><a href="#contacts" onclick="closeMobileMenu()">Контакты</a></li>
+            <li><a href="#" onclick="openModal(); closeMobileMenu();">Записаться</a></li>
+        </ul>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content" data-aos="fade-up">
+                <div class="hero-badge"><i class="fas fa-award"></i> Хорошее место 2026</div>
+                <h1 class="hero-title">ARCHI<br><span>Barber Shop</span></h1>
+                <p class="hero-subtitle">Мужские стрижки, оформление бороды и премиальный уход во Владикавказе</p>
+                <div class="hero-rating">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <span class="rating-text">5.0</span>
+                    <span class="reviews">(594 отзыва)</span>
+                </div>
+                <div class="hero-buttons">
+                    <button class="btn-primary" onclick="openModal()">
+                        <i class="fas fa-calendar-check"></i> Записаться онлайн
+                    </button>
+                    <button class="btn-outline" onclick="showRoute()">
+                        <i class="fas fa-route"></i> Построить маршрут
+                    </button>
+                </div>
+                <div class="hero-info-cards">
+                    <div class="hero-info-card">
+                        <div class="icon"><i class="fas fa-clock"></i></div>
+                        <div class="text"><strong>10:00 – 21:00</strong><span>Ежедневно</span></div>
+                    </div>
+                    <div class="hero-info-card">
+                        <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div class="text"><strong>ул. Маркова, 14</strong><span>Владикавказ</span></div>
+                    </div>
+                    <div class="hero-info-card">
+                        <div class="icon"><i class="fas fa-phone"></i></div>
+                        <div class="text"><strong>+7 (919) 423-XX-XX</strong><span>Позвонить</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" class="section services">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <p class="section-label">Наши услуги</p>
+                <h2 class="section-title">Прайс-лист <span>Archi</span></h2>
+                <p class="section-desc">Выберите категорию мастера и запишитесь на удобное время</p>
+            </div>
+
+            <div class="services-tabs" data-aos="fade-up" data-aos-delay="100">
+                <button class="tab-btn active" onclick="switchTab('barber', this)">Барбер</button>
+                <button class="tab-btn" onclick="switchTab('senior', this)">Старший барбер</button>
+                <button class="tab-btn" onclick="switchTab('brand', this)">Бренд барбер</button>
+            </div>
+
+            <!-- BARBER -->
+            <div class="tab-content active" id="tab-barber">
+                <div class="services-grid" id="grid-barber"></div>
+            </div>
+            <!-- SENIOR -->
+            <div class="tab-content" id="tab-senior">
+                <div class="services-grid" id="grid-senior"></div>
+            </div>
+            <!-- BRAND -->
+            <div class="tab-content" id="tab-brand">
+                <div class="services-grid" id="grid-brand"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery" class="section gallery">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <p class="section-label">Наши работы</p>
+                <h2 class="section-title">Галерея <span>Archi</span></h2>
+                <p class="section-desc">Фото нашего барбершопа, работ мастеров и довольных клиентов</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item" data-aos="fade-up"><img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt=""></div>
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="100"><img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt=""></div>
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="200"><img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt=""></div>
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="300"><img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt=""></div>
+                <div class="gallery-item" data-aos="fade-up"><img src="https://images.unsplash.com/photo-1585747860019-8942b4a6b0d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt=""></div>
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="100"><img src="https://images.unsplash.com/photo-1596728325488-58c87691e9af?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt=""></div>
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="200"><img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt=""></div>
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="300"><img src="https://images.unsplash.com/photo-1517832606299-7ae9b720a186?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt=""></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACTS -->
+    <section id="contacts" class="section contacts">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <p class="section-label">Как нас найти</p>
+                <h2 class="section-title">Контакты и <span>адрес</span></h2>
+            </div>
+            <div class="contacts-grid">
+                <div class="contact-info">
+                    <div class="contact-card" data-aos="fade-up">
+                        <div class="contact-card-header">
+                            <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
+                            <h3>АДРЕС</h3>
+                        </div>
+                        <p>ул. Маркова, 14, Владикавказ<br>Республика Северная Осетия — Алания</p>
+                        <button class="btn-route" onclick="showRoute()">
+                            <i class="fas fa-route"></i> Построить маршрут
+                        </button>
+                    </div>
+
+                    <div class="contact-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="contact-card-header">
+                            <div class="icon"><i class="fas fa-phone"></i></div>
+                            <h3>ТЕЛЕФОН</h3>
+                        </div>
+                        <p><a href="tel:+79194230000" style="font-size: 22px; font-weight: 700;">+7 (919) 423-XX-XX</a></p>
+                        <button class="btn-whatsapp" onclick="openWhatsApp()">
+                            <i class="fab fa-whatsapp"></i> Написать в WhatsApp
+                        </button>
+                    </div>
+
+                    <div class="contact-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="contact-card-header">
+                            <div class="icon"><i class="fas fa-clock"></i></div>
+                            <h3>ВРЕМЯ РАБОТЫ</h3>
+                        </div>
+                        <p style="color: var(--accent); font-weight: 600; margin-bottom: 15px;">Открыто до 21:00</p>
+                        <div class="schedule-list" id="scheduleList"></div>
+                    </div>
+                </div>
+
+                <div class="map-container" data-aos="fade-up" data-aos-delay="100">
+                    <iframe src="https://yandex.ru/map-widget/v1/?ll=44.669600%2C43.036700&z=16&pt=44.669600%2C43.036700%2Cpm2rdm" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <div class="footer-logo">
+                    <div class="logo-icon">A</div>
+                    <h2>ARCHI</h2>
+                </div>
+                <div class="footer-social">
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+                    <a href="https://wa.me/79194230000" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" aria-label="VK"><i class="fab fa-vk"></i></a>
+                </div>
+                <div class="footer-copy">© 2026 Archi Barber Shop. Все права защищены.</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- FLOATING WHATSAPP -->
+    <a href="#" class="whatsapp-float" onclick="openWhatsApp(); return false;" aria-label="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="bookingModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div>
+                    <h2>ЗАПИСЬ ОНЛАЙН</h2>
+                    <p>Заявка придёт мастеру в Telegram и на Email</p>
+                </div>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="bookingForm">
+                    <form id="mainForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Ваше имя *</label>
+                                <input type="text" id="name" required placeholder="Как к вам обращаться?">
+                            </div>
+                            <div class="form-group">
+                                <label>Телефон *</label>
+                                <input type="tel" id="phone" required placeholder="+7 (___) ___-__-__">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Категория мастера</label>
+                            <select id="masterCategory" onchange="updateServices()">
+                                <option value="barber">Барбер</option>
+                                <option value="senior">Старший барбер</option>
+                                <option value="brand">Бренд барбер</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Услуга</label>
+                            <select id="service"><option value="">Выберите услугу</option></select>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Дата</label>
+                                <input type="date" id="date">
+                            </div>
+                            <div class="form-group">
+                                <label>Время</label>
+                                <select id="time">
+                                    <option value="">Любое</option>
+                                    <option>10:00</option><option>11:00</option><option>12:00</option>
+                                    <option>13:00</option><option>14:00</option><option>15:00</option>
+                                    <option>16:00</option><option>17:00</option><option>18:00</option>
+                                    <option>19:00</option><option>20:00</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Комментарий</label>
+                            <textarea id="comment" placeholder="Дополнительная информация..."></textarea>
+                        </div>
+                        <button type="submit" class="btn-submit" id="submitBtn">Записаться</button>
+                    </form>
+                </div>
+
+                <div class="success-message" id="successMessage">
+                    <div class="success-icon"><i class="fas fa-check"></i></div>
+                    <h3>ЗАЯВКА ОТПРАВЛЕНА!</h3>
+                    <p>Мы получили вашу заявку и свяжемся с вами<br>в ближайшее время для подтверждения</p>
+                </div>
+
+                <div class="success-message" id="errorMessage" style="display:none;">
+                    <div class="success-icon" style="background: rgba(244, 67, 54, 0.15); color: #f44336;">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3>ОШИБКА ОТПРАВКИ</h3>
+                    <p>Попробуйте ещё раз или напишите нам в WhatsApp</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        /* ============================================
+           ⚙️ НАСТРОЙКИ — МЕНЯЙТЕ ТОЛЬКО ЗДЕСЬ!
+           ============================================ */
+        const CONFIG = {
+            // 1. Telegram-бот (получите у @BotFather)
+            telegramBotToken: 'СЮДА_ВСТАВЬТЕ_ТОКЕН_БОТА',  // пример: '7123456789:AAHxyz...'
+            telegramChatId: 'СЮДА_ВСТАВЬТЕ_VASH_CHAT_ID',  // пример: '123456789'
+
+            // 2. Email для получения заявок (любой ваш email)
+            email: 'vash_email@gmail.com',
+
+            // 3. WhatsApp номер (без + и пробелов)
+            whatsappNumber: '79194230000',
+
+            // 4. Адрес для маршрута
+            address: 'ул. Маркова, 14, Владикавказ'
+        };
+        /* ============================================ */
+
+        // ===== ДАННЫЕ УСЛУГ =====
+        const servicesData = {
+            barber: [
+                { name: 'Мужская стрижка', price: 1000, time: '40-60 мин', desc: 'Профессиональная стрижка с учётом формы лица и стиля клиента.' },
+                { name: 'Стрижка + оформление бороды', price: 1600, time: '60-90 мин', desc: 'Комплексный уход для гармоничного и стильного мужского образа.' },
+                { name: 'Стрижка + тонирование головы', price: 1800, time: '50-70 мин', desc: 'Комплексное преображение: форма + оттенок.' },
+                { name: 'Стрижка + снятие бороды', price: 1300, time: '50-70 мин', desc: 'Двойное преображение: свежая стрижка и гладкое лицо.' },
+                { name: 'Стрижка под насадку + борода', price: 1200, time: '40-60 мин', desc: 'Быстрый и аккуратный способ привести всё в порядок.' },
+                { name: 'Оформление + тонирование бороды', price: 1400, time: '40-60 мин', desc: 'Профессиональный уход. Эффект 2–3 недели.' },
+                { name: 'Друг + друг', price: 1800, time: '60-80 мин', desc: 'Совместный визит для стильной компании!' },
+                { name: 'Отец + сын (до 8 лет)', price: 1800, time: '50-70 мин', desc: 'Семейный образ по специальной цене.' },
+                { name: 'Оформление бороды', price: 800, time: '30-40 мин', desc: 'Стрижка и коррекция формы бороды.' },
+                { name: 'Тонирование бороды', price: 800, time: '30-40 мин', desc: 'Окрашивание, маскировка седины. Эффект 2–3 недели.' },
+                { name: 'Тонирование головы', price: 1000, time: '40-60 мин', desc: 'Освежить цвет без радикальных перемен.' },
+                { name: 'Детская стрижка (до 8 лет)', price: 900, time: '30-40 мин', desc: 'Быстро, аккуратно, стильно!' },
+                { name: 'Бритьё лица опасным лезвием', price: 1000, time: '30-40 мин', desc: 'Классическое бритьё для идеально гладкой кожи.' },
+                { name: 'Бритьё головы опасным лезвием', price: 1000, time: '40-50 мин', desc: 'Профессиональная услуга с подготовкой кожи.' },
+                { name: 'Бритьё лица шейвером', price: 700, time: '20-30 мин', desc: 'Быстро и аккуратно профессиональным триммером.' },
+                { name: 'Бритьё головы шейвером', price: 800, time: '20-30 мин', desc: 'Идеально гладкая или ультракороткая стрижка.' },
+                { name: 'Окантовка бороды', price: 400, time: '15-20 мин', desc: 'Чёткий и аккуратный контур бороды.' },
+                { name: 'Окантовка стрижки', price: 500, time: '15 мин', desc: 'Финальный этап — чёткие контуры прически.' },
+                { name: 'Стрижка под одну насадку', price: 600, time: '15 мин', desc: 'Просто и практично — идеальная длина.' },
+                { name: 'Стрижка под насадку с переходом', price: 800, time: '25-35 мин', desc: 'Плавный переход на висках и затылке.' },
+                { name: 'Снятие бороды машинкой', price: 500, time: '15-20 мин', desc: 'Удаление бороды триммером.' },
+                { name: 'Мытьё и укладка', price: 500, time: '15-20 мин', desc: 'Профессиональное мытьё с укладкой.' },
+                { name: 'Депиляция воском (1 зона)', price: 300, time: '15 мин', desc: 'Быстро и эффективно.' }
+            ],
+            senior: [
+                { name: 'Мужская стрижка', price: 1200, time: '40-60 мин', desc: 'Стрижка от старшего барбера.' },
+                { name: 'Стрижка + оформление бороды', price: 2000, time: '60-90 мин', desc: 'Комплексный уход от старшего барбера.' },
+                { name: 'Стрижка + тонирование головы', price: 2200, time: '50-70 мин', desc: 'Преображение формы и оттенка.' },
+                { name: 'Стрижка + снятие бороды', price: 1600, time: '50-70 мин', desc: 'Двойное преображение.' },
+                { name: 'Стрижка под насадку + борода', price: 1400, time: '40-60 мин', desc: 'Быстро и аккуратно.' },
+                { name: 'Оформление + тонирование бороды', price: 1800, time: '40-60 мин', desc: 'Коррекция формы + тонирование.' },
+                { name: 'Друг + друг', price: 2200, time: '60-80 мин', desc: 'Совместный визит к старшему барберу.' },
+                { name: 'Отец + сын (до 8 лет)', price: 2000, time: '50-70 мин', desc: 'Семейный визит.' },
+                { name: 'Оформление бороды', price: 1000, time: '30-40 мин', desc: 'Стрижка и коррекция формы.' },
+                { name: 'Тонирование бороды', price: 1000, time: '30-40 мин', desc: 'Окрашивание бороды.' },
+                { name: 'Тонирование головы', price: 1200, time: '40-60 мин', desc: 'Окрашивание волос.' },
+                { name: 'Детская стрижка (до 8 лет)', price: 1000, time: '30-40 мин', desc: 'Аккуратно и стильно.' },
+                { name: 'Бритьё лица опасным лезвием', price: 1200, time: '30-40 мин', desc: 'Классическое бритьё.' },
+                { name: 'Бритьё головы опасным лезвием', price: 1000, time: '40-50 мин', desc: 'Профессионально вручную.' },
+                { name: 'Бритьё лица шейвером', price: 800, time: '20-30 мин', desc: 'Гладкая кожа триммером.' },
+                { name: 'Бритьё головы шейвером', price: 1000, time: '20-30 мин', desc: 'Идеально гладко.' },
+                { name: 'Окантовка бороды', price: 500, time: '15-20 мин', desc: 'Чёткий контур.' },
+                { name: 'Окантовка стрижки', price: 500, time: '15 мин', desc: 'Финальные штрихи.' },
+                { name: 'Стрижка под одну насадку', price: 600, time: '15 мин', desc: 'Быстро и практично.' },
+                { name: 'Стрижка под насадку с переходом', price: 1000, time: '25-35 мин', desc: 'Плавный переход.' },
+                { name: 'Снятие бороды машинкой', price: 600, time: '15-20 мин', desc: 'Удаление триммером.' },
+                { name: 'Мытьё и укладка', price: 500, time: '15-20 мин', desc: 'Мытьё с укладкой.' },
+                { name: 'Депиляция воском (1 зона)', price: 300, time: '15 мин', desc: 'Быстро и эффективно.' }
+            ],
+            brand: [
+                { name: 'Мужская стрижка', price: 1500, time: '50-70 мин', desc: 'Премиальная стрижка от бренд-барбера.' },
+                { name: 'Стрижка + оформление бороды', price: 2500, time: '70-100 мин', desc: 'Премиум-уход.' },
+                { name: 'Стрижка + тонирование головы', price: 2600, time: '60-80 мин', desc: 'Комплексное преображение.' },
+                { name: 'Стрижка + снятие бороды', price: 2000, time: '60-80 мин', desc: 'Двойное преображение.' },
+                { name: 'Стрижка под насадку + борода', price: 1800, time: '50-70 мин', desc: 'Быстро и аккуратно.' },
+                { name: 'Оформление + тонирование бороды', price: 2200, time: '50-70 мин', desc: 'Премиальный уход за бородой.' },
+                { name: 'Друг + друг', price: 2800, time: '70-90 мин', desc: 'Премиум-визит для компании.' },
+                { name: 'Отец + сын (до 8 лет)', price: 2400, time: '60-80 мин', desc: 'Семейный премиум-визит.' },
+                { name: 'Оформление бороды', price: 1200, time: '35-45 мин', desc: 'Стрижка и коррекция.' },
+                { name: 'Тонирование бороды', price: 1200, time: '35-45 мин', desc: 'Окрашивание бороды.' },
+                { name: 'Тонирование головы', price: 1300, time: '45-65 мин', desc: 'Окрашивание волос.' },
+                { name: 'Детская стрижка (до 8 лет)', price: 1200, time: '35-45 мин', desc: 'Премиум-стрижка для детей.' },
+                { name: 'Бритьё лица опасным лезвием', price: 1500, time: '35-45 мин', desc: 'Классика от бренд-барбера.' },
+                { name: 'Бритьё головы опасным лезвием', price: 1200, time: '45-55 мин', desc: 'Профессионально вручную.' },
+                { name: 'Бритьё лица шейвером', price: 1000, time: '25-35 мин', desc: 'Гладкая кожа.' },
+                { name: 'Бритьё головы шейвером', price: 1200, time: '25-35 мин', desc: 'Идеально гладко.' },
+                { name: 'Окантовка бороды', price: 600, time: '15-20 мин', desc: 'Чёткий контур.' },
+                { name: 'Окантовка стрижки', price: 600, time: '15 мин', desc: 'Финальные штрихи.' },
+                { name: 'Стрижка под одну насадку', price: 900, time: '15 мин', desc: 'Просто и практично.' },
+                { name: 'Стрижка под насадку с переходом', price: 1200, time: '30-40 мин', desc: 'Плавный переход.' },
+                { name: 'Снятие бороды машинкой', price: 800, time: '20-25 мин', desc: 'Удаление триммером.' },
+                { name: 'Мытьё и укладка', price: 600, time: '15-20 мин', desc: 'Мытьё с укладкой.' },
+                { name: 'Депиляция воском (1 зона)', price: 400, time: '15 мин', desc: 'Быстро и эффективно.' }
+            ]
+        };
+
+        const categoryNames = { barber: 'Барбер', senior: 'Старший барбер', brand: 'Бренд барбер' };
+
+        // ===== РЕНДЕР УСЛУГ =====
+        function renderServices() {
+            for (const category in servicesData) {
+                const grid = document.getElementById('grid-' + category);
+                grid.innerHTML = servicesData[category].map((s, i) => `
+                    <div class="service-card" data-aos="fade-up" data-aos-delay="${(i % 3) * 100}">
+                        <div class="service-card-header">
+                            <h3>${s.name}</h3>
+                            <div class="service-price">${s.price.toLocaleString('ru-RU')} ₽</div>
+                        </div>
+                        <p>${s.desc}</p>
+                        <div class="service-card-footer">
+                            <span class="service-time"><i class="far fa-clock"></i> ${s.time}</span>
+                            <button class="btn-book-service" onclick="openModal('${s.name}', '${category}')">Записаться</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // ===== РЕНДЕР РАСПИСАНИЯ =====
+        function renderSchedule() {
+            const days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
+            const today = new Date().getDay();
+            const list = document.getElementById('scheduleList');
+            const order = [1, 2, 3, 4, 5, 6, 0]; // Пн-Вс
+            list.innerHTML = order.map(d => `
+                <div class="schedule-item ${d === today ? 'today' : ''}">
+                    <span class="day">${days[d]}${d === today ? ' (сегодня)' : ''}</span>
+                    <span class="time">10:00–21:00</span>
+                </div>
+            `).join('');
+        }
+
+        // ===== TABS =====
+        function switchTab(tab, btn) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('tab-' + tab).classList.add('active');
+            AOS.refresh();
+        }
+
+        // ===== MODAL =====
+        function openModal(service = '', category = 'barber') {
+            const modal = document.getElementById('bookingModal');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            document.getElementById('masterCategory').value = category;
+            updateServices();
+            if (service) {
+                setTimeout(() => {
+                    document.getElementById('service').value = service;
+                }, 50);
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('bookingModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+            setTimeout(() => {
+                document.getElementById('bookingForm').style.display = 'block';
+                document.getElementById('successMessage').classList.remove('show');
+                document.getElementById('errorMessage').style.display = 'none';
+                document.getElementById('mainForm').reset();
+                document.getElementById('submitBtn').disabled = false;
+                document.getElementById('submitBtn').textContent = 'Записаться';
+                setMinDate();
+            }, 300);
+        }
+
+        function updateServices() {
+            const category = document.getElementById('masterCategory').value;
+            const select = document.getElementById('service');
+            select.innerHTML = '<option value="">Выберите услугу</option>';
+            servicesData[category].forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s.name;
+                opt.textContent = `${s.name} — ${s.price} ₽`;
+                select.appendChild(opt);
+            });
+        }
+
+        document.getElementById('bookingModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+        // ===== ОТПРАВКА ФОРМЫ =====
+        document.getElementById('mainForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Отправка...';
+
+            const data = {
+                name: document.getElementById('name').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                category: document.getElementById('masterCategory').value,
+                service: document.getElementById('service').value,
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value,
+                comment: document.getElementById('comment').value.trim()
+            };
+
+            const dateFormatted = data.date ? new Date(data.date).toLocaleDateString('ru-RU') : 'Не указана';
+
+            const message =
+`🔔 НОВАЯ ЗАЯВКА — ARCHI BARBER SHOP
+
+👤 Имя: ${data.name}
+📱 Телефон: ${data.phone}
+💈 Мастер: ${categoryNames[data.category]}
+✂️ Услуга: ${data.service || 'Не выбрана'}
+📅 Дата: ${dateFormatted}
+🕐 Время: ${data.time || 'Любое'}
+💬 Комментарий: ${data.comment || 'Нет'}
+
+🌐 Отправлено с сайта: ${new Date().toLocaleString('ru-RU')}`;
+
+            let telegramOk = false, emailOk = false;
+
+            // 1. Telegram
+            if (CONFIG.telegramBotToken !== 'СЮДА_ВСТАВЬТЕ_ТОКЕН_БОТА') {
+                try {
+                    const res = await fetch(`https://api.telegram.org/bot${CONFIG.telegramBotToken}/sendMessage`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            chat_id: CONFIG.telegramChatId,
+                            text: message
+                        })
+                    });
+                    const json = await res.json();
+                    telegramOk = json.ok;
+                    console.log(telegramOk ? '✅ Telegram: отправлено' : '❌ Telegram: ошибка', json);
+                } catch (err) {
+                    console.error('❌ Telegram error:', err);
+                }
+            } else {
+                console.warn('⚠️ Telegram не настроен — вставьте токен бота в CONFIG');
+            }
+
+            // 2. Email через FormSubmit (AJAX)
+            try {
+                const res = await fetch(`https://formsubmit.co/ajax/${CONFIG.email}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        '_subject': '🔔 Новая заявка с сайта Archi',
+                        '_captcha': 'false',
+                        '_template': 'table',
+                        'Имя': data.name,
+                        'Телефон': data.phone,
+                        'Мастер': categoryNames[data.category],
+                        'Услуга': data.service,
+                        'Дата': dateFormatted,
+                        'Время': data.time,
+                        'Комментарий': data.comment
+                    })
+                });
+                emailOk = res.ok;
+                console.log(emailOk ? '✅ Email: отправлено' : '❌ Email: ошибка');
+            } catch (err) {
+                console.error('❌ Email error:', err);
+            }
+
+            // 3. Результат
+            if (telegramOk || emailOk) {
+                document.getElementById('bookingForm').style.display = 'none';
+                document.getElementById('successMessage').classList.add('show');
+                setTimeout(closeModal, 3500);
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Записаться';
+            }
+        });
+
+        // ===== ROUTE =====
+        function showRoute() {
+            const encoded = encodeURIComponent(CONFIG.address);
+            window.open(`https://yandex.ru/maps/?rtext=~${encoded}&rtt=auto`, '_blank');
+        }
+
+        // ===== WHATSAPP =====
+        function openWhatsApp() {
+            const text = encodeURIComponent('Здравствуйте! Хочу записаться в Archi Barber Shop');
+            window.open(`https://wa.me/${CONFIG.whatsappNumber}?text=${text}`, '_blank');
+        }
+
+        // ===== PHONE MASK =====
+        document.getElementById('phone').addEventListener('input', function(e) {
+            let v = e.target.value.replace(/\D/g, '');
+            if (v[0] === '7' || v[0] === '8') v = v.substring(1);
+            let out = '+7';
+            if (v.length > 0) out += ' (' + v.substring(0, 3);
+            if (v.length >= 3) out += ') ' + v.substring(3, 6);
+            if (v.length >= 6) out += '-' + v.substring(6, 8);
+            if (v.length >= 8) out += '-' + v.substring(8, 10);
+            e.target.value = out;
+        });
+
+        function setMinDate() {
+            document.getElementById('date').min = new Date().toISOString().split('T')[0];
+        }
+
+        function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        function toggleMobileMenu() { document.getElementById('mobileNav').classList.toggle('active'); }
+        function closeMobileMenu() { document.getElementById('mobileNav').classList.remove('active'); }
+
+        window.addEventListener('scroll', () => {
+            document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // ===== INIT =====
+        AOS.init({ duration: 800, once: true, offset: 100 });
+        renderServices();
+        renderSchedule();
+        updateServices();
+        setMinDate();
+    </script>
+</body>
+</html>
